@@ -10,20 +10,50 @@ firebase_admin.initialize_app(cred, {
 ref = db.reference('Students')
 
 data = {
-    "20":
+    "2":
         {
             "name": "Sayantan Kar",
-            "major": "Robotics",
+            "major": "Software Developer",
             "starting_year": 2020,
             "total_attendance": 0,
             "standing": "G",
             "year": 4,
             "last_attendance_time": "2023-11-11 00:54:34"
         },
-    "22":
+    "3":
         {
             "name": "Elon Musk",
             "major": "Physics",
+            "starting_year": 2020,
+            "total_attendance": 7,
+            "standing": "G",
+            "year": 4,
+            "last_attendance_time": "2023-11-11 00:54:34"
+        },
+    "4":
+        {
+            "name": "Debanjan Acharya",
+            "major": "Physics",
+            "starting_year": 2020,
+            "total_attendance": 0,
+            "standing": "G",
+            "year": 4,
+            "last_attendance_time": "2023-11-11 00:54:34"
+        },
+    "5":
+        {
+            "name": "Adway Dutta Gupta",
+            "major": "Marketing",
+            "starting_year": 2017,
+            "total_attendance": 0,
+            "standing": "G",
+            "year": 3,
+            "last_attendance_time": "2023-11-11 00:54:34"
+        },
+    "1":
+        {
+            "name": "Akanksha Dey",
+            "major": "Maths",
             "starting_year": 2020,
             "total_attendance": 7,
             "standing": "G",
