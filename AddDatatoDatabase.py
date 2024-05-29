@@ -18,7 +18,8 @@ data = {
             "total_attendance": 0,
             "standing": "G",
             "year": 4,
-            "last_attendance_time": "2023-11-11 00:54:34"
+            "last_attendance_time": "2023-11-11 00:54:34",
+            "last_attendance_date": "2023-11-11"
         },
     "3":
         {
@@ -28,7 +29,8 @@ data = {
             "total_attendance": 7,
             "standing": "G",
             "year": 4,
-            "last_attendance_time": "2023-11-11 00:54:34"
+            "last_attendance_time": "2023-11-11 00:54:34",
+            "last_attendance_date": "2023-11-11"
         },
     "4":
         {
@@ -38,7 +40,8 @@ data = {
             "total_attendance": 0,
             "standing": "G",
             "year": 4,
-            "last_attendance_time": "2023-11-11 00:54:34"
+            "last_attendance_time": "2023-11-11 00:54:34",
+            "last_attendance_date": "2023-11-11"
         },
     "5":
         {
@@ -48,7 +51,8 @@ data = {
             "total_attendance": 0,
             "standing": "G",
             "year": 3,
-            "last_attendance_time": "2023-11-11 00:54:34"
+            "last_attendance_time": "2023-11-11 00:54:34",
+            "last_attendance_date": "2023-11-11"
         },
     "1":
         {
@@ -58,7 +62,8 @@ data = {
             "total_attendance": 7,
             "standing": "G",
             "year": 4,
-            "last_attendance_time": "2023-11-11 00:54:34"
+            "last_attendance_time": "2023-11-11 00:54:34",
+            "last_attendance_date": "2023-11-11"
         }
 }
 

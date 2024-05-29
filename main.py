@@ -22,7 +22,6 @@ bucket = storage.bucket()
 
 cap = cv2.VideoCapture(0)
 
-
 cap.set(3, 240)
 cap.set(4, 320)
 
@@ -41,7 +40,7 @@ file = open('EncodeFile.p', 'rb')
 encodeListKnownWithIds = pickle.load(file)
 file.close()
 encodeListKnown, studentIds = encodeListKnownWithIds
-print(studentIds)
+# print(studentIds)
 print("Encode File Loaded")
 
 modeType = 0
@@ -74,7 +73,7 @@ while True:
 
             if matches[matchIndex]:
                 print("Known Face Detected")
-                print(studentIds[matchIndex])
+                # print(studentIds[matchIndex])
                 y1, x2, y2, x1 = faceLoc
                 y1, x2, y2, x1 = y1 * 4, x2 * 4, y2 * 4, x1 * 4
                 bbox = 55 + x1, 162 + y1, x2 - x1, y2 - y1
@@ -91,7 +90,7 @@ while True:
 
             if counter == 1:
                 studentInfo = db.reference(f'Students/{id}').get()
-                print(studentInfo)
+                # print(studentInfo)
                 # Get the Image from the storage
                 blob = bucket.get_blob(f'Images/{id}.jpg')
                 array = np.frombuffer(blob.download_as_string(), np.uint8)
@@ -100,60 +99,49 @@ while True:
                 datetimeObject = datetime.strptime(studentInfo['last_attendance_time'],
                                                    "%Y-%m-%d %H:%M:%S")
                 secondsElapsed = (datetime.now() - datetimeObject).total_seconds()
-                print(secondsElapsed)
-                if secondsElapsed > 20:
+                # print(secondsElapsed)
+                if studentInfo['last_attendance_date'] != datetime.now().strftime("%Y-%m-%d"):
+                # if secondsElapsed > 20:
                     ref = db.reference(f'Students/{id}')
                     studentInfo['total_attendance'] += 1
                     ref.child('total_attendance').set(studentInfo['total_attendance'])
                     ref.child("attendance-timing").push(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
                     ref.child('last_attendance_time').set(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+                    ref.child('last_attendance_date').set(datetime.now().strftime("%Y-%m-%d"))
                 else:
                     modeType = 2
                     counter = 0
                     imgBackground[200:200 + 400, 675:675 + 240] = imgModeList[modeType]
-                    time.sleep(3)
+                    cv2.putText(imgBackground, "Already Completes !!!", (675, 445),
+                                cv2.FONT_HERSHEY_COMPLEX, .50, (50, 50, 50), 1)
+                    time.sleep(2)
                     modeType = 1
 
-        if modeType !=2:
+        if modeType != 2:
 
-                if 10 < counter < 20:
-                    modeType = 2
+            if 10 < counter < 20:
+                modeType = 2
 
+            imgBackground[200:200 + 400, 675:675 + 240] = imgModeList[modeType]
+
+            if counter <= 10:
+                cv2.putText(imgBackground, "Joining Year: " + str(studentInfo['starting_year']), (675, 460),
+                            cv2.FONT_HERSHEY_COMPLEX, 0.4, (100, 100, 100), 1)
+
+                cv2.putText(imgBackground, "Name: " + str(studentInfo['name']), (675, 445),
+                            cv2.FONT_HERSHEY_COMPLEX, .50, (50, 50, 50), 1)
+
+                imgBackground[250:250 + 100, 715:715 + 100] = imgStudent
+                # time.sleep(5)
+
+            counter += 1
+
+            if counter >= 20:
+                counter = 0
+                modeType = 0
+                studentInfo = []
+                imgStudent = []
                 imgBackground[200:200 + 400, 675:675 + 240] = imgModeList[modeType]
-
-                if counter <= 10:
-                    # cv2.putText(imgBackground, str(studentInfo['total_attendance']), (861, 125),
-                    #             cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 1)
-                    # cv2.putText(imgBackground, str(studentInfo['major']), (1006, 550),
-                    #             cv2.FONT_HERSHEY_COMPLEX, 0.5, (255, 255, 255), 1)
-                    # cv2.putText(imgBackground, str(id), (1006, 493),
-                    #             cv2.FONT_HERSHEY_COMPLEX, 0.5, (255, 255, 255), 1)
-                    # cv2.putText(imgBackground, str(studentInfo['standing']), (910, 625),
-                    #             cv2.FONT_HERSHEY_COMPLEX, 0.6, (100, 100, 100), 1)
-                    cv2.putText(imgBackground, "Joining Year: " +str(studentInfo['starting_year']), (675, 460),
-                                cv2.FONT_HERSHEY_COMPLEX, 0.4, (100, 100, 100), 1)
-                    # cv2.putText(imgBackground, str(studentInfo['starting_year']), (1125, 625),
-                    #             cv2.FONT_HERSHEY_COMPLEX, 0.6, (100, 100, 100), 1)
-                    #
-                    # (w, h), _ = cv2.getTextSize(studentInfo['name'], cv2.FONT_HERSHEY_COMPLEX, 1, 1)
-                    # offset = (414 - w) // 2
-                    # cv2.putText(imgBackground, str(studentInfo['name']), (808 + offset, 445),
-                    #             cv2.FONT_HERSHEY_COMPLEX, 1, (50, 50, 50), 1)
-
-                    cv2.putText(imgBackground, "Name: "+str(studentInfo['name']), (675, 445),
-                                cv2.FONT_HERSHEY_COMPLEX, .50, (50, 50, 50), 1)
-
-                    imgBackground[250:250 + 100, 715:715 + 100] = imgStudent
-                    # time.sleep(10)
-
-                counter += 1
-
-                if counter >= 20:
-                    counter = 0
-                    modeType = 0
-                    studentInfo = []
-                    imgStudent = []
-                    imgBackground[200:200 + 400, 675:675 + 240] = imgModeList[modeType]
     else:
         modeType = 0
         counter = 0
