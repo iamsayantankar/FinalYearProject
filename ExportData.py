@@ -15,25 +15,17 @@ print(studentInfo)
 
 # Loop through each list of data
 for i, data in enumerate(studentInfo):
-    # print(i)
-    # print(data)
+
     if type(data) == type(None):
         continue
 
     try:
         attendanceTiming = data["attendance-timing"]
         attendanceDate = []
-        print(data)
-        # attendanceDate = [{"auth key": key, "Time": value} for key, value in data.items()]
 
         for key, value in attendanceTiming.items():
             myData = {"auth-key": key, "Time": value}
             attendanceDate.append(myData)
-        # for value in attendanceTiming.values():
-        #     attendanceDate.append(value)
-
-        # df = pd.DataFrame(attendanceDate, columns=["attendance-timing"])
-        print(attendanceTiming)
 
         df = pd.DataFrame(attendanceDate)
 
